@@ -1,0 +1,17 @@
+{
+  "name": "reset-promo-video",
+  "version": "1.0.0",
+  "description": "40-second motion graphics promo for Reset",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "stills": "node render.mjs stills",
+    "frames": "node render.mjs video",
+    "audio": "node audio.mjs",
+    "mux": "ffmpeg -v error -y -i out/frames.mp4 -i out/audio.wav -af loudnorm=I=-16:TP=-1.5:LRA=7 -ar 48000 -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart out/reset-promo.mp4",
+    "build": "npm run frames && npm run audio && npm run mux"
+  },
+  "dependencies": {
+    "puppeteer-core": "^25.12.0"
+  }
+}

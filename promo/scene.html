@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reset promo</title>
+<!--
+  40-second motion graphics promo for Reset.
+  Deterministic: window.render(t) draws the frame at time t (seconds).
+  Every colour below comes from Reset's own stylesheet (src/styles.css).
+-->
+<style>
+:root{
+  /* app palette (dark) */
+  --bg:#121c18; --surface:#222624; --surface-raised:#2a2e2b; --text:#f0f1e9; --muted:#949b91;
+  --line:#ffffff10; --card:#303532; --card-bottom:#2c302e; --digit:#f4f4e9;
+  --accent:#bfd4ad; --accent-ink:#293722; --accent-hover:#cfdfc0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);font-family:'Segoe UI Variable','Segoe UI',sans-serif;color:var(--text)}
+#frame{position:absolute;inset:0;overflow:hidden}
+
+/* ---------- backdrop: the app's own desktop preview backdrop ---------- */
+.backdrop{position:absolute;inset:-40px;background:radial-gradient(ellipse at 70% 25%,#55645188,transparent 48%),linear-gradient(130deg,#27352e,#15261f 65%,#20342a)}
+.landscape{position:absolute;width:150%;height:75%;left:-25%;border-radius:48% 50% 0 0}
+.l1{bottom:-27%;background:linear-gradient(10deg,#10291e,#3b5141);box-shadow:0 -50px 140px #a4b8930c}
+.l2{bottom:-49%;left:-45%;background:linear-gradient(5deg,#0a1d15,#273e2f);box-shadow:0 -1px 0 #b6c8a515}
+.l3{bottom:-67%;left:0;background:#10271d}
+.grain{position:absolute;inset:0;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' d='M0 0h160v160H0z'/%3E%3C/svg%3E")}
+.vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 45%,#121c18 120%)}
+
+/* ---------- logo ---------- */
+#logo{position:absolute;left:0;top:0;width:150px;height:150px;transform-origin:50% 50%}
+#logo svg{width:100%;height:100%;overflow:visible}
+#word{position:absolute;left:0;top:0;font-size:118px;font-weight:650;letter-spacing:-5px;line-height:1.1;white-space:nowrap;color:#f0f1e9}
+#word .dot,.brand-dot{color:var(--accent)}
+#word .clip{display:inline-block;overflow:hidden;vertical-align:bottom}
+#tagline{position:absolute;left:0;top:0;font-size:30px;color:#949b91;letter-spacing:.2px;white-space:nowrap}
+
+/* ---------- widget ---------- */
+.widget{position:absolute;left:0;top:0;width:432px;height:416px;border-radius:26px;background:var(--surface);border:1px solid var(--line);
+  box-shadow:0 26px 80px #0004,0 4px 12px #0002,inset 0 1px 0 #ffffff06;transform-origin:50% 50%;overflow:hidden}
+.w-inner{position:absolute;inset:0}
+.w-header{position:absolute;left:24px;right:24px;top:22px;height:30px;display:flex;align-items:center;justify-content:space-between}
+.w-word{font-size:19px;font-weight:700;letter-spacing:-.8px}
+.w-time{font-size:11px;color:var(--muted);letter-spacing:.5px}
+.w-icons{display:flex;gap:22px;align-items:center;color:var(--muted)}
+.w-icons svg{width:17px;height:17px}
+.badge{display:flex;align-items:center;gap:6px;font-size:7px;letter-spacing:1.6px;color:var(--muted);font-weight:600}
+.badge i,.dot5{width:4px;height:4px;border-radius:50%;background:var(--accent);display:inline-block}
+
+.clock{position:absolute;left:24px;right:24px;top:78px;height:130px}
+.labels{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-around;font-size:8px;letter-spacing:2px;color:var(--muted);font-weight:600}
+.cards{position:absolute;left:0;right:0;top:20px;height:100px}
+.fc{position:absolute;top:0;width:85px;height:100px;perspective:420px}
+.fc .half{position:absolute;left:0;width:100%;height:50%;overflow:hidden;background:var(--card)}
+.fc .top{top:0;border-radius:8px 8px 0 0;background:var(--card)}
+.fc .bot{bottom:0;border-radius:0 0 8px 8px;background:var(--card-bottom)}
+.fc .num{position:absolute;left:0;width:100%;height:200%;display:flex;align-items:center;justify-content:center;
+  font-family:'Bahnschrift','Segoe UI',sans-serif;font-weight:700;font-size:72px;color:var(--digit);font-stretch:condensed;font-variation-settings:'wght' 700,'wdth' 80}
+.fc .top .num{top:0}.fc .bot .num{top:-100%}
+.fc .flap{position:absolute;left:0;width:100%;height:50%;overflow:hidden;backface-visibility:hidden}
+.fc .flap.ft{top:0;transform-origin:50% 100%;border-radius:8px 8px 0 0;background:var(--card)}
+.fc .flap.fb{bottom:0;transform-origin:50% 0;border-radius:0 0 8px 8px;background:var(--card-bottom)}
+.fc .flap.ft .num{top:0}.fc .flap.fb .num{top:-100%}
+.fc .seam{position:absolute;left:0;right:0;top:50%;height:1px;margin-top:-.5px;background:#0006;z-index:5}
+.fc .shade{position:absolute;inset:0;pointer-events:none}
+.colon{position:absolute;top:35px;width:4px;height:30px;display:flex;flex-direction:column;justify-content:space-between}
+.colon i{width:4px;height:4px;border-radius:50%;background:var(--muted);opacity:.7}
+
+.session{position:absolute;left:24px;right:24px;top:222px;text-align:center}
+.slabel{display:flex;align-items:center;justify-content:center;gap:7px;font-size:9px;letter-spacing:2px;font-weight:600;color:var(--muted)}
+.track{margin-top:13px;height:2px;border-radius:2px;background:var(--line);position:relative;overflow:hidden}
+.track b{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px}
+.meta{margin-top:16px;font-size:11px;color:var(--muted)}
+.primary{position:absolute;left:24px;right:24px;top:322px;height:44px;border-radius:12px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:600}
+.primary svg{width:14px;height:14px}
+.primary .restart{position:absolute;right:3px;top:3px;width:38px;height:38px;border-radius:10px;border:1px solid #29372230;display:flex;align-items:center;justify-content:center}
+.w-footer{position:absolute;left:24px;right:24px;bottom:18px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}
+
+/* break layout */
+.brk{position:absolute;inset:0;opacity:0}
+.ring{position:absolute;left:50%;top:46%;border-radius:50%;border:1px solid var(--accent);transform:translate(-50%,-50%)}
+.brk .eyebrow{position:absolute;left:0;right:0;top:92px;text-align:center;font-size:9px;letter-spacing:3px;color:var(--muted);font-weight:600}
+.brk h1{position:absolute;left:0;right:0;top:116px;text-align:center;font-size:50px;letter-spacing:-2px;font-weight:650;line-height:1.1}
+.brk h1 span{color:var(--accent)}
+.brk .sub{position:absolute;left:0;right:0;top:196px;text-align:center;font-size:13px;line-height:1.75;color:var(--muted)}
+.brk .well{position:absolute;left:0;right:0;top:458px;text-align:center;font-size:14px;font-weight:600;color:var(--accent)}
+.brk .well2{position:absolute;left:0;right:0;top:490px;text-align:center;font-size:11px;color:var(--muted)}
+.brk .btns{position:absolute;left:0;right:0;top:526px;display:flex;justify-content:center;gap:12px}
+.pill{height:44px;border-radius:12px;padding:0 22px;display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600}
+.pill.solid{background:var(--accent);color:var(--accent-ink);width:172px;justify-content:center}
+.pill.ghost{border:1px solid #ffffff15;color:var(--text)}
+.brk .skip{position:absolute;left:0;right:0;top:590px;text-align:center;font-size:11px;color:var(--muted)}
+
+/* ---------- settings panel ---------- */
+.panel{position:absolute;left:0;top:0;width:620px;height:520px;border-radius:26px;background:var(--surface);border:1px solid var(--line);
+  box-shadow:0 26px 80px #0004,0 4px 12px #0002;transform-origin:50% 50%;overflow:hidden}
+.panel .eyebrow{position:absolute;left:28px;top:30px;font-size:9px;letter-spacing:3px;color:var(--muted);font-weight:600}
+.panel h2{position:absolute;left:28px;top:46px;font-size:30px;font-weight:650;letter-spacing:-1.2px}
+.panel h2 span{color:var(--accent)}
+.panel .x{position:absolute;right:28px;top:52px;color:var(--muted)}
+.tabs{position:absolute;left:28px;right:28px;top:104px;height:40px;display:flex;gap:7px}
+.tabs .tabhi{left:0}
+.tab{flex:1;border-radius:10px;border:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+.tab.on{color:var(--accent-ink)}
+.tabhi{position:absolute;top:0;height:40px;border-radius:10px;background:var(--accent);z-index:0}
+.box{position:absolute;left:28px;right:28px;top:162px;height:258px;border-radius:16px;border:1px solid var(--line);background:#ffffff05}
+.page{position:absolute;inset:0;padding:20px 18px}
+.page h3{font-size:14px;font-weight:700;margin-bottom:12px}
+.flabel{font-size:11.5px;color:var(--muted);margin:4px 0 10px}
+.chips{position:relative;display:flex;height:36px;margin-bottom:18px}
+.chip{flex:1;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);position:relative;z-index:1;border-radius:9px}
+.chip.on{color:var(--accent-ink)}
+.chiphi{position:absolute;top:0;height:36px;border-radius:9px;background:var(--accent);z-index:0}
+.accents{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ac{height:46px;border-radius:12px;border:1px solid var(--line);background:var(--surface-raised);display:flex;align-items:center;gap:10px;padding:0 14px;font-size:12.5px;color:var(--text);position:relative}
+.ac i{width:15px;height:15px;border-radius:50%}
+.ac.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.toggle{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-top:6px}
+.sw{width:32px;height:18px;border-radius:10px;background:#ffffff15;position:relative}
+.sw b{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--muted)}
+.save{position:absolute;left:28px;right:28px;bottom:28px;height:46px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+
+/* ---------- captions ---------- */
+.cap{position:absolute;left:150px;top:0;width:600px;color:#f0f1e9}
+.cap .num{display:flex;align-items:center;gap:14px;font-size:15px;letter-spacing:4px;font-weight:600;color:var(--accent)}
+.cap .num i{display:block;width:34px;height:1px;background:var(--accent)}
+.cap h2{margin-top:22px;font-size:84px;line-height:1.02;letter-spacing:-3.5px;font-weight:650}
+.cap h2 .ln{display:block;overflow:hidden;padding-bottom:6px}
+.cap h2 .ln span{display:inline-block}
+.cap h2 em{font-style:normal;color:var(--accent)}
+.cap p{margin-top:26px;font-size:24px;line-height:1.5;color:#949b91;max-width:520px}
+
+/* ---------- outro ---------- */
+#free{position:absolute;left:0;top:0;height:54px;padding:0 26px;border-radius:30px;background:var(--accent);color:var(--accent-ink);font-size:20px;font-weight:600;display:flex;align-items:center;gap:12px;white-space:nowrap}
+#free svg{width:20px;height:20px}
+#links{position:absolute;left:0;top:0;font-size:21px;color:#949b91;white-space:nowrap;letter-spacing:.3px}
+#links b{color:#f0f1e9;font-weight:600}
+#fade{position:absolute;inset:0;background:var(--bg);pointer-events:none}
+
+/* ---------- cursor ---------- */
+#cursor{position:absolute;left:0;top:0;width:34px;height:40px;z-index:100;filter:drop-shadow(0 4px 8px #0006)}
+#ripple{position:absolute;left:0;top:0;border-radius:50%;border:2px solid var(--accent);z-index:99}
+</style>
+</head>
+<body>
+<div id="frame">
+  <div class="backdrop" id="backdrop"><div class="landscape l1" id="l1"></div><div class="landscape l2" id="l2"></div><div class="landscape l3" id="l3"></div></div>
+  <div class="grain"></div>
+  <div class="vignette"></div>
+
+  <!-- intro / outro brand -->
+  <div id="logo"><svg viewBox="0 0 64 64"><rect id="logoRect" x="1" y="1" width="62" height="62" rx="17" fill="var(--accent)"/>
+    <g id="logoArrow" fill="none" stroke="var(--accent-ink)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" style="transform-origin:32px 32px">
+      <path id="arc" d="M46.8 21.6A18 18 0 1 0 49.7 35.1"/><path id="head" d="M47 12.5v11H40"/></g></svg></div>
+  <div id="word"><span class="clip" id="wordClip">reset<span class="dot">.</span></span></div>
+  <div id="tagline">A little space to focus.</div>
+  <div id="free"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M5.5 8.5 10 13l4.5-4.5M4 16.5h12"/></svg>Free for Windows 10 &amp; 11</div>
+  <div id="links"><b>hastamev.com/reset</b> &nbsp;·&nbsp; github.com/binodray/Reset</div>
+
+  <!-- captions -->
+  <div class="cap" id="cap0"><div class="num"><i></i>01 &nbsp;FOCUS</div><h2><span class="ln"><span>One thing</span></span><span class="ln"><span>at a <em>time.</em></span></span></h2><p>A calm flip clock that sits quietly on your desktop.</p></div>
+  <div class="cap" id="cap1"><div class="num"><i></i>02 &nbsp;FLOW</div><h2><span class="ln"><span>Stay in</span></span><span class="ln"><span>the <em>zone.</em></span></span></h2><p>Gentle progress. No noise, no account, no distractions.</p></div>
+  <div class="cap" id="cap2"><div class="num"><i></i>03 &nbsp;RESET</div><h2><span class="ln"><span>Time to</span></span><span class="ln"><span><em>breathe.</em></span></span></h2><p>When focus ends, Reset invites you to rest your eyes, stretch and move.</p></div>
+  <div class="cap" id="cap3"><div class="num"><i></i>04 &nbsp;YOURS</div><h2><span class="ln"><span>Make it</span></span><span class="ln"><span><em>yours.</em></span></span></h2><p>Durations, sounds, break messages and six calm accents.</p></div>
+  <div class="cap" id="cap4"><div class="num"><i></i>05 &nbsp;ANYWHERE</div><h2><span class="ln"><span>Any size.</span></span><span class="ln"><span>Light or <em>dark.</em></span></span></h2><p>Drag a corner from mini to large. Reset remembers.</p></div>
+
+  <!-- widget -->
+  <div class="widget" id="widget">
+    <div class="brk" id="brk">
+      <div class="ring" id="r1"></div><div class="ring" id="r2"></div><div class="ring" id="r3"></div>
+      <div class="eyebrow">A MOMENT FOR YOU</div>
+      <h1>Time to reset<span>.</span></h1>
+      <div class="sub">You’ve completed 30 minutes of focused work.<br>Now make a little space for yourself.</div>
+      <div class="well" id="well">Relax your jaw. Let your shoulders drop.</div>
+      <div class="well2">Look away from the screen. Breathe. Move a little.</div>
+      <div class="btns"><div class="pill solid" id="startBreak"><svg id="sbIcon" viewBox="0 0 20 20" width="13" height="13" fill="currentColor"><path d="M6 4.5v11l9-5.5z"/></svg><span id="startBreakText">Start break</span></div><div class="pill ghost">Give me 5 more minutes</div></div>
+      <div class="skip">Skip break ↗</div>
+    </div>
+    <div class="w-inner" id="focusUI">
+      <div class="session" id="session"><div class="slabel"><span class="dot5" id="statusDot"></span><span id="phase">FOCUS SESSION</span></div><div class="track"><b id="bar"></b></div><div class="meta">30 min focus &nbsp;·&nbsp; 5 min reset</div></div>
+      <div class="primary" id="primary"><svg id="pIcon" viewBox="0 0 20 20" fill="currentColor"><path d="M6 4.5v11l9-5.5z"/></svg><span id="pText">Start focusing</span><span class="restart"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M15.5 6.5A6.5 6.5 0 1 0 16.4 11"/><path d="M15.6 3v3.6H12"/></svg></span></div>
+      <div class="w-footer"><span>One thing at a time.</span><span id="sessions">A fresh start</span></div>
+    </div>
+    <div class="w-header"><span class="w-word">reset<span class="brand-dot">.</span></span><span class="w-time" id="wtime">10:19</span>
+      <div class="w-icons"><span class="badge" id="badge"><i></i>YOUR TIME, RECLAIMED</span>
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="10" cy="10" r="2.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4"/></svg>
+        <svg viewBox="0 0 20 20" fill="currentColor"><circle cx="4.5" cy="10" r="1.3"/><circle cx="10" cy="10" r="1.3"/><circle cx="15.5" cy="10" r="1.3"/></svg></div></div>
+    <div class="clock" id="clock"><div class="labels"><span>MINUTES</span><span>SECONDS</span></div><div class="cards" id="cards"></div></div>
+  </div>
+
+  <!-- settings -->
+  <div class="panel" id="panel">
+    <div class="eyebrow">MAKE IT YOURS</div><h2>Your rhythm<span>.</span></h2>
+    <div class="x"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 5l10 10M15 5 5 15"/></svg></div>
+    <div class="tabs" id="tabs"><div class="tabhi" id="tabhi"></div><div class="tab">Timer</div><div class="tab">Sound</div><div class="tab">Appearance</div><div class="tab">Messages</div><div class="tab">Window</div></div>
+    <div class="box">
+      <div class="page" id="pgTimer"><h3>Timer</h3><div class="flabel">Focus duration</div>
+        <div class="chips" id="chips"><div class="chiphi" id="chiphi"></div><div class="chip">20 min</div><div class="chip">25 min</div><div class="chip">30 min</div><div class="chip">40 min</div><div class="chip">45 min</div><div class="chip">60 min</div></div>
+        <div class="flabel">Break duration</div>
+        <div class="chips" id="chips2"><div class="chiphi" style="left:0;width:16.66%"></div><div class="chip on">5 min</div><div class="chip">6 min</div><div class="chip">7 min</div><div class="chip">10 min</div><div class="chip">15 min</div><div class="chip">20 min</div></div>
+        <div class="toggle"><span>Auto-start next focus session</span><span class="sw"><b></b></span></div></div>
+      <div class="page" id="pgLook"><h3>Accent colour</h3><div class="flabel">Applied to controls, the logo, progress and the breathing glow.</div>
+        <div class="accents" id="accents"></div>
+        <div class="toggle" style="margin-top:18px"><span>Light appearance</span><span class="sw"><b></b></span></div></div>
+    </div>
+    <div class="save"><span>Save preferences</span><span>↗</span></div>
+  </div>
+
+  <div id="ripple"></div>
+  <svg id="cursor" viewBox="0 0 34 40"><path d="M3 2.5v29.5l7.6-7.2 5 11.7 5.6-2.4-5-11.4H27z" fill="#f0f1e9" stroke="#121c18" stroke-width="2" stroke-linejoin="round"/></svg>
+  <div id="fade"></div>
+</div>
+
+<script>
+/* ============================================================
+   Helpers
+============================================================ */
+const $ = (id) => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const eOut = (k) => 1 - Math.pow(1 - k, 3);
+const eIn = (k) => k * k * k;
+const eInOut = (k) => (k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+const eOutQuint = (k) => 1 - Math.pow(1 - k, 5);
+const eBack = (k, s = 1.70158) => 1 + (s + 1) * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2);
+/** Damped spring from 0 to 1. */
+const spring = (k, f = 3.2, d = 6.5) => (k <= 0 ? 0 : 1 - Math.exp(-d * k) * Math.cos(f * Math.PI * k));
+const PLAY = '<path d="M6 4.5v11l9-5.5z"/>', PAUSE = '<rect x="5" y="4" width="3.4" height="12" rx="1"/><rect x="11.6" y="4" width="3.4" height="12" rx="1"/>';
+const css = (el, o) => { for (const k in o) el.style[k] = o[k]; };
+const put = (el, x, y, s = 1, extra = "") => { el.style.transform = `translate(${x}px,${y}px) scale(${s})${extra}`; };
+const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const mix = (a, b, k) => { const A = hex(a), B = hex(b); return "#" + A.map((v, i) => Math.round(lerp(v, B[i], k)).toString(16).padStart(2, "0")).join(""); };
+
+/* ============================================================
+   Palette (from src/styles.css)
+============================================================ */
+const ACCENTS = {
+  sage: ["#bfd4ad", "#293722"], blue: ["#b8d3ee", "#24394a"], lavender: ["#d2c2ed", "#382a4a"],
+  peach: ["#f0c6a9", "#493322"], rose: ["#e9bdc9", "#462c35"], teal: ["#add9d0", "#23403a"],
+};
+const DARK = { surface: "#222624", raised: "#2a2e2b", text: "#f0f1e9", muted: "#949b91", card: "#303532", cardB: "#2c302e", digit: "#f4f4e9" };
+const LIGHT = { surface: "#f4f3ec", raised: "#eaeae1", text: "#29302a", muted: "#7a8176", card: "#e8e9df", cardB: "#dfe2d6", digit: "#333a31" };
+
+/* ============================================================
+   Timeline (seconds). 96 BPM: one bar = 2.5 s, 16 bars = 40 s.
+============================================================ */
+const BAR = 2.5;
+const T = {
+  logoIn: 0.35, arcDraw: [0.55, 1.45], spin: [1.55, 2.45], slide: [2.35, 3.05], tag: 3.0, introOut: [4.35, 4.95],
+  widgetIn: 4.95, cardsIn: 5.15, cap0: 5.45, cursorIn0: [5.9, 6.85], click0: 7.0, cursorOut0: [7.7, 8.6],
+  cap1: 10.15, ff: [10.0, 13.55],
+  breakAt: 15.0, expand: [15.15, 16.15], cap2: 15.9, breakDigits: 16.35, well2: 20.0,
+  cursorIn1: [18.3, 19.25], click1: 19.45, cursorOut1: [20.1, 21.0], collapse: [24.2, 25.0],
+  panelIn: [25.0, 25.75], cap3: 25.25, chip25: 26.75, lookTab: 27.7, accentClicks: [28.5, 29.1, 29.7, 30.3, 30.9, 31.6], panelOut: [32.05, 32.6],
+  cap4: 32.65, sizes: [[32.9, 0.62], [33.6, 1.42], [34.25, 1.12]], light: [34.5, 34.85], dark: [35.2, 35.5],
+  outro: [35.5, 36.2], outLogo: 36.0, outWord: 36.35, outTag: 36.85, outFree: 37.35, outLinks: 37.8, end: [39.3, 40.0],
+};
+const CAPS = [
+  { id: "cap0", in: T.cap0, out: 9.85 }, { id: "cap1", in: T.cap1, out: 14.75 }, { id: "cap2", in: T.cap2, out: 24.4 },
+  { id: "cap3", in: T.cap3, out: 32.25 }, { id: "cap4", in: T.cap4, out: 35.45 },
+];
+
+/* Clock display changes: [time, "MMSS", flipDuration] */
+const CHANGES = [[0, "3000", .32]];
+CHANGES.push([7.5, "2959", .32], [8.5, "2958", .32], [9.5, "2957", .32]);
+{ // fast-forward: quantised steps that slow down toward the end of the session
+  const from = 29 * 60 + 57, steps = 26;
+  for (let i = 1; i <= steps; i++) {
+    const k = i / steps, tt = lerp(T.ff[0], T.ff[1], Math.pow(k, .82));
+    const rem = Math.max(4, Math.round(from * (1 - eInOut(k)) + 4 * eInOut(k)));
+    const mm = String(Math.floor(rem / 60)).padStart(2, "0"), ss = String(rem % 60).padStart(2, "0");
+    CHANGES.push([tt, mm + ss, .13]);
+  }
+  CHANGES.push([13.95, "0003", .3], [14.35, "0002", .3], [14.7, "0001", .3], [T.breakAt, "0000", .34]);
+}
+CHANGES.push([T.breakDigits, "0500", .36], [20.0, "0459", .32], [21.0, "0458", .32], [22.0, "0457", .32], [23.0, "0456", .32]);
+CHANGES.push([T.collapse[1] + 0.05, "2500", .36]); // after choosing 25 min the widget shows the new duration
+CHANGES.sort((a, b) => a[0] - b[0]);
+
+/** Remaining seconds for the progress bar. */
+function remainingAt(t) {
+  let cur = CHANGES[0];
+  for (const c of CHANGES) if (c[0] <= t) cur = c;
+  return +cur[1].slice(0, 2) * 60 + +cur[1].slice(2);
+}
+
+/* ============================================================
+   Flip cards
+============================================================ */
+const CARD_X = [0, 92, 205, 297];
+const cardsEl = $("cards");
+const cards = CARD_X.map((x, i) => {
+  const el = document.createElement("div");
+  el.className = "fc"; el.style.left = x + "px";
+  el.innerHTML = `<div class="half top"><div class="num"></div></div><div class="half bot"><div class="num"></div></div>
+    <div class="flap ft"><div class="num"></div><div class="shade"></div></div><div class="flap fb"><div class="num"></div><div class="shade"></div></div><div class="seam"></div>`;
+  cardsEl.appendChild(el);
+  return { el, top: el.querySelector(".top .num"), bot: el.querySelector(".bot .num"), ft: el.querySelector(".ft"), fb: el.querySelector(".fb"),
+    ftn: el.querySelector(".ft .num"), fbn: el.querySelector(".fb .num"), fts: el.querySelector(".ft .shade"), fbs: el.querySelector(".fb .shade") };
+});
+const colon = document.createElement("div");
+colon.className = "colon"; colon.style.left = "190px"; colon.innerHTML = "<i></i><i></i>";
+cardsEl.appendChild(colon);
+
+/** For digit i at time t: [old, new, progress]. */
+function digitState(i, t) {
+  let prev = CHANGES[0][1][i], cur = prev, at = -99, dur = .3;
+  for (const [tc, s, d] of CHANGES) {
+    if (tc > t) break;
+    if (s[i] !== cur) { prev = cur; cur = s[i]; at = tc; dur = d; }
+  }
+  return [prev, cur, clamp((t - at) / dur)];
+}
+
+function drawCards(t, light) {
+  cards.forEach((c, i) => {
+    const [o, n, p] = digitState(i, t);
+    c.top.textContent = n; c.ftn.textContent = o; c.fbn.textContent = n;
+    c.bot.textContent = p < 1 ? o : n;
+    const a = p < .5 ? eIn(p * 2) : 1, b = p < .5 ? 0 : eOut((p - .5) * 2);
+    c.ft.style.display = p < .5 ? "block" : "none";
+    c.fb.style.display = p >= .5 && p < 1 ? "block" : "none";
+    c.ft.style.transform = `rotateX(${-90 * a}deg)`;
+    c.fb.style.transform = `rotateX(${90 * (1 - b)}deg)`;
+    c.fts.style.background = `rgba(0,0,0,${0.35 * a})`;
+    c.fbs.style.background = `rgba(0,0,0,${0.3 * (1 - b)})`;
+    // cards drop in at the start of the focus scene
+    const k = spring(prog(t, T.cardsIn + i * .08, T.cardsIn + i * .08 + .9), 2.2, 6);
+    c.el.style.transform = `translateY(${(1 - k) * 40}px)`;
+    c.el.style.opacity = clamp(prog(t, T.cardsIn + i * .08, T.cardsIn + i * .08 + .2));
+  });
+  colon.style.opacity = clamp(prog(t, T.cardsIn + .3, T.cardsIn + .5));
+}
+
+/* ============================================================
+   Accent chips in the settings panel
+============================================================ */
+const ACC_ORDER = ["sage", "blue", "lavender", "peach", "rose", "teal"];
+ACC_ORDER.forEach((name) => {
+  const el = document.createElement("div");
+  el.className = "ac"; el.dataset.name = name;
+  el.innerHTML = `<i style="background:${ACCENTS[name][0]}"></i>${name[0].toUpperCase() + name.slice(1)}`;
+  $("accents").appendChild(el);
+});
+
+/* ============================================================
+   Cursor path: keyframes [t, x, y]
+============================================================ */
+// Positions are computed against the layout used in render(); see W (widget) and P (panel) below.
+const W = { x: 1250, y: 540, s: 1.45 };      // widget centre and scale in the focus scene
+const P = { x: 1250, y: 545, s: 1.32 };      // settings panel centre and scale
+const toW = (lx, ly, s = W.s, cx = W.x, cy = W.y, w = 432, h = 416) => [cx + (lx - w / 2) * s, cy + (ly - h / 2) * s];
+const toP = (lx, ly) => [P.x + (lx - 310) * P.s, P.y + (ly - 260) * P.s];
+const BRK = { x: 1290, y: 540, s: 1.22, w: 700, h: 650 };
+
+const startBtn = toW(216, 344);
+const breakBtn = toW(350 - 99, 548, BRK.s, BRK.x, BRK.y, BRK.w, BRK.h);
+// tab and chip centres inside the panel (panel width 620: tabs 28..592, 5 tabs; chips 46..574, 6 chips)
+const tabC = (i) => toP(28 + (564 - 28) / 5 * (i + .5) + 3, 124);
+const chipC = (i) => toP(47 + 528 / 6 * (i + .5), 238);
+const accC = (i) => toP(47 + (i % 3) * 179 + 80, 238 + Math.floor(i / 3) * 56);
+
+const CURSOR = [
+  [5.9, 1980, 1150], [6.85, ...startBtn], [7.7, ...startBtn], [8.6, 1990, 880],
+  [18.3, 1990, 1120], [19.25, ...breakBtn], [20.1, ...breakBtn], [21.0, 2000, 900],
+  [26.0, 1990, 1060], [26.6, ...chipC(1)], [26.95, ...chipC(1)], [27.55, ...tabC(2)], [27.9, ...tabC(2)],
+  ...T.accentClicks.map((tc, i) => [[tc - .32, ...accC((i + 1) % 6)], [tc + .12, ...accC((i + 1) % 6)]]).flat(),
+  [32.2, 1990, 760],
+  [32.75, 2000, 900], [32.95, ...toW(432, 416, 1.12)], [33.6, ...toW(432, 416, .62)], [34.25, ...toW(432, 416, 1.42)], [34.55, ...toW(432, 416, 1.12)], [35.3, 2000, 1000],
+];
+const CLICKS = [T.click0, T.click1, T.chip25, T.lookTab, ...T.accentClicks];
+
+function cursorAt(t) {
+  if (t < CURSOR[0][0] || t > CURSOR[CURSOR.length - 1][0]) return null;
+  for (let i = 0; i < CURSOR.length - 1; i++) {
+    const [t0, x0, y0] = CURSOR[i], [t1, x1, y1] = CURSOR[i + 1];
+    if (t >= t0 && t <= t1) {
+      const off0 = x0 > 1960 || y0 > 1100, off1 = x1 > 1960 || y1 > 1100;
+      if (off0 && off1 && t1 - t0 > 2) return null; // parked off-screen between scenes
+      const k = eInOut(prog(t, t0, t1));
+      // slight arc for natural mouse motion
+      const arc = Math.sin(k * Math.PI) * Math.min(60, Math.hypot(x1 - x0, y1 - y0) * .08);
+      return [lerp(x0, x1, k) + arc * .3, lerp(y0, y1, k) - arc];
+    }
+  }
+  return null;
+}
+const pressAt = (t) => CLICKS.reduce((m, c) => Math.max(m, 1 - Math.abs(t - c) / .09), 0);
+
+/* ============================================================
+   Captions
+============================================================ */
+function drawCap(c, t) {
+  const el = $(c.id);
+  const kin = prog(t, c.in, c.in + .9), kout = prog(t, c.out - .45, c.out);
+  if (t < c.in || t > c.out) { el.style.display = "none"; return; }
+  el.style.display = "block";
+  const h = el.querySelector("h2"), lines = h.querySelectorAll(".ln span"), num = el.querySelector(".num"), p = el.querySelector("p");
+  const y0 = 540 - el.offsetHeight / 2;
+  put(el, 0, y0 - eIn(kout) * 30);
+  el.style.opacity = 1 - eOut(kout);
+  num.style.opacity = eOut(prog(t, c.in, c.in + .4));
+  num.querySelector("i").style.width = 34 * eOut(prog(t, c.in, c.in + .6)) + "px";
+  lines.forEach((ln, i) => {
+    const k = eOutQuint(prog(t, c.in + .08 + i * .1, c.in + .78 + i * .1));
+    ln.style.transform = `translateY(${(1 - k) * 105}%)`;
+  });
+  const kp = eOut(prog(t, c.in + .35, c.in + 1.05));
+  p.style.opacity = kp; p.style.transform = `translateY(${(1 - kp) * 18}px)`;
+}
+
+/* ============================================================
+   Render
+============================================================ */
+const root = document.documentElement.style;
+function setPalette(accent, ink, P) {
+  root.setProperty("--accent", accent); root.setProperty("--accent-ink", ink);
+  root.setProperty("--surface", P.surface); root.setProperty("--surface-raised", P.raised); root.setProperty("--text", P.text);
+  root.setProperty("--muted", P.muted); root.setProperty("--card", P.card); root.setProperty("--card-bottom", P.cardB); root.setProperty("--digit", P.digit);
+}
+
+function accentAt(t) {
+  // accent follows the chip the cursor clicked; returns to sage at the last click
+  const seq = [["sage"], ...T.accentClicks.map((tc, i) => [ACC_ORDER[(i + 1) % 6], tc])];
+  let cur = "sage", prev = "sage", at = -9;
+  for (const [n, tc] of seq.slice(1)) if (t >= tc) { prev = cur; cur = n; at = tc; }
+  const k = eOut(prog(t, at, at + .35));
+  return [mix(ACCENTS[prev][0], ACCENTS[cur][0], k), mix(ACCENTS[prev][1], ACCENTS[cur][1], k), cur];
+}
+
+function render(t) {
+  /* ---- palette ---- */
+  const [acc, ink, accName] = accentAt(t);
+  const lk = eInOut(prog(t, T.light[0], T.light[1])) * (1 - eInOut(prog(t, T.dark[0], T.dark[1])));
+  const pal = {}; for (const k in DARK) pal[k] = mix(DARK[k], LIGHT[k], lk);
+  setPalette(acc, ink, pal);
+
+  /* ---- backdrop drift ---- */
+  put($("backdrop"), Math.sin(t * .11) * 18, Math.cos(t * .09) * 10, 1.02);
+  $("l1").style.transform = `rotate(${-10 + Math.sin(t * .15) * 1.2}deg)`;
+  $("l2").style.transform = `rotate(${15 + Math.sin(t * .12 + 1) * 1.4}deg)`;
+  $("l3").style.transform = `rotate(${-20 + Math.sin(t * .1 + 2) * 1}deg)`;
+
+  /* ---- intro brand ---- */
+  const logo = $("logo"), word = $("word"), tag = $("tagline");
+  const introOut = eIn(prog(t, T.introOut[0], T.introOut[1]));
+  const outroK = eOut(prog(t, T.outLogo, T.outLogo + .8));
+  const inIntro = t < T.introOut[1] + .01, inOutro = t >= T.outLogo;
+  logo.style.display = inIntro || inOutro ? "block" : "none";
+  word.style.display = tag.style.display = logo.style.display;
+  if (inIntro) {
+    const pop = spring(prog(t, T.logoIn, T.logoIn + 1.1), 2.4, 5.5);
+    const slide = eInOut(prog(t, T.slide[0], T.slide[1]));
+    const spin = eInOut(prog(t, T.spin[0], T.spin[1])) * 360;
+    const s = pop * (1 - introOut * .35);
+    const lx = 960 - 75 - slide * 225, ly = 540 - 75 - slide * 18;
+    put(logo, lx, ly - introOut * 20, s, ` rotate(${-12 * (1 - pop)}deg)`);
+    logo.style.opacity = clamp(pop * 3) * (1 - introOut);
+    const draw = eInOut(prog(t, ...T.arcDraw));
+    const arc = $("arc"), len = 92;
+    arc.style.strokeDasharray = len; arc.style.strokeDashoffset = len * (1 - draw);
+    $("head").style.opacity = clamp(prog(t, T.arcDraw[1] - .2, T.arcDraw[1] + .05));
+    $("logoArrow").style.transform = `rotate(${spin}deg)`;
+    const wk = eOutQuint(prog(t, T.slide[0] + .2, T.slide[1] + .35));
+    $("wordClip").style.width = 330 * wk + "px";
+    put(word, 960 - 75 - 225 + 182, 540 - 75 - 18 + 12 - introOut * 20);
+    word.style.opacity = 1 - introOut;
+    const tk = eOut(prog(t, T.tag, T.tag + .7));
+    put(tag, 960 - 75 - 225 + 190, 540 + 62 + (1 - tk) * 16 - introOut * 20);
+    tag.style.opacity = tk * (1 - introOut);
+  } else if (inOutro) {
+    const pop = spring(prog(t, T.outLogo, T.outLogo + 1.1), 2.4, 5.5);
+    const end = eIn(prog(t, T.end[0], T.end[1]));
+    put(logo, 960 - 75 - 225, 540 - 75 - 60, pop);
+    logo.style.opacity = clamp(pop * 3);
+    $("arc").style.strokeDashoffset = 0; $("head").style.opacity = 1;
+    $("logoArrow").style.transform = `rotate(${(1 - eOut(prog(t, T.outLogo, T.outLogo + 1))) * -360}deg)`;
+    const wk = eOutQuint(prog(t, T.outWord, T.outWord + .7));
+    $("wordClip").style.width = 330 * wk + "px";
+    put(word, 960 - 75 - 225 + 182, 540 - 75 - 60 + 12);
+    word.style.opacity = 1;
+    const tk = eOut(prog(t, T.outTag, T.outTag + .7));
+    put(tag, 960 - 75 - 225 + 190, 540 + 2 + (1 - tk) * 16); tag.style.opacity = tk;
+    void end;
+  }
+  const fk = spring(prog(t, T.outFree, T.outFree + 1), 2.2, 6);
+  const free = $("free");
+  free.style.display = t >= T.outFree ? "flex" : "none";
+  put(free, 960 - free.offsetWidth / 2, 540 + 100 + (1 - fk) * 30, .9 + .1 * fk); free.style.opacity = clamp(fk * 2);
+  const lnk = eOut(prog(t, T.outLinks, T.outLinks + .7)), links = $("links");
+  links.style.display = t >= T.outLinks ? "block" : "none";
+  put(links, 960 - links.offsetWidth / 2, 540 + 186 + (1 - lnk) * 14); links.style.opacity = lnk;
+
+  /* ---- captions ---- */
+  CAPS.forEach((c) => drawCap(c, t));
+
+  /* ---- widget ---- */
+  const widget = $("widget");
+  const wIn = spring(prog(t, T.widgetIn, T.widgetIn + 1.1), 2.2, 6.2);
+  const ex = eInOut(prog(t, ...T.expand)) * (1 - eInOut(prog(t, ...T.collapse)));
+  const toPanel = eInOut(prog(t, T.panelIn[0] - .1, T.panelIn[0] + .5)) * (1 - eInOut(prog(t, T.panelOut[0], T.panelOut[1] + .2)));
+  const outro = eInOut(prog(t, ...T.outro));
+  // resize demo: widget scale follows the dragged size presets with a spring
+  let sizeS = W.s;
+  if (t >= T.panelOut[0]) {
+    let s = 1.12, from = 1.12, at = -9;
+    for (const [tc, v] of T.sizes) if (t >= tc) { from = s; s = v; at = tc; }
+    const k = spring(prog(t, at, at + .9), 1.6, 7);
+    sizeS = at < 0 ? 1.12 : lerp(from, s, k);
+  }
+  const visible = t >= T.widgetIn && t < T.outro[1] + .05;
+  widget.style.display = visible ? "block" : "none";
+  if (visible) {
+    const w = lerp(432, BRK.w, ex), h = lerp(416, BRK.h, ex);
+    const cx = lerp(W.x, BRK.x, ex), cy = lerp(W.y, BRK.y, ex);
+    let s = lerp(W.s, BRK.s, ex);
+    if (t >= T.panelOut[0]) s = sizeS;
+    s *= lerp(.86, 1, wIn) * (1 - toPanel * .12) * lerp(1, .25, outro);
+    const ox = lerp(cx, 960 - 225, outro), oy = lerp(cy, 540 - 60, outro) + toPanel * 60;
+    css(widget, { width: w + "px", height: h + "px", borderRadius: lerp(26, 32, ex) + "px",
+      opacity: clamp(wIn * 2) * (1 - toPanel) * (1 - eIn(prog(t, T.outro[0] + .2, T.outro[1]))) });
+    put(widget, ox - w / 2, oy - h / 2, s);
+    // inner layout: focus UI <-> break UI
+    const fUI = 1 - clamp(prog(t, T.expand[0], T.expand[0] + .3)) + clamp(prog(t, T.collapse[1] - .3, T.collapse[1]));
+    $("focusUI").style.opacity = clamp(fUI);
+    const bUI = clamp(prog(t, T.expand[0] + .55, T.expand[1] + .2)) * (1 - clamp(prog(t, T.collapse[0], T.collapse[0] + .3)));
+    const brk = $("brk"); brk.style.opacity = bUI;
+    brk.querySelector("h1").style.transform = `translateY(${(1 - eOut(bUI)) * 20}px)`;
+    // clock block moves down in the break layout
+    const clockY = lerp(78, 274, ex), clockX = lerp(24, (700 - 384) / 2, ex);
+    css($("clock"), { top: clockY + "px", left: clockX + "px", width: "384px", right: "auto" });
+    $("badge").style.display = ex > .5 ? "flex" : "none";
+    $("wtime").style.opacity = ex > .5 ? 0 : 1;
+    // breathing rings
+    [["r1", 300], ["r2", 430], ["r3", 560]].forEach(([id, d], i) => {
+      const br = .5 + .5 * Math.sin((t - 16) * 2 * Math.PI / 5 - i * .6);
+      const el = $(id); const sz = d * (.92 + .1 * br);
+      css(el, { width: sz + "px", height: sz + "px", opacity: (0.05 + .06 * br) * bUI });
+    });
+    // wellness message rotation
+    const wm = $("well");
+    const swap = prog(t, T.well2 + 1.2, T.well2 + 1.6);
+    wm.textContent = t < T.well2 + 1.4 ? "Relax your jaw. Let your shoulders drop." : "Take a few slow breaths.";
+    wm.style.opacity = 1 - Math.sin(swap * Math.PI);
+    // session state
+    const running = t >= T.click0;
+    $("pText").textContent = running ? "Pause focus" : "Start focusing";
+    $("pIcon").innerHTML = running ? '<rect x="5" y="4" width="3.4" height="12" rx="1"/><rect x="11.6" y="4" width="3.4" height="12" rx="1"/>' : '<path d="M6 4.5v11l9-5.5z"/>';
+    if (t > T.collapse[0]) { $("pText").textContent = "Start focusing"; $("pIcon").innerHTML = '<path d="M6 4.5v11l9-5.5z"/>'; }
+    $("sessions").textContent = t > T.breakAt ? "1 focus session" : "A fresh start";
+    $("statusDot").style.opacity = running ? .55 + .45 * Math.sin(t * 4) : .5;
+    $("startBreakText").textContent = t >= T.click1 ? "Pause break" : "Start break";
+    $("sbIcon").innerHTML = t >= T.click1 ? PAUSE : PLAY;
+    const rem = remainingAt(t), focusTotal = t > T.collapse[0] ? 1500 : 1800;
+    $("bar").style.width = (t < T.click0 || t > T.collapse[0] ? 0 : (1 - rem / focusTotal) * 100) + "%";
+    // button press feedback
+    const p0 = 1 - Math.abs(t - T.click0) / .12;
+    $("primary").style.transform = `scale(${1 - .04 * clamp(p0)})`;
+    const p1 = 1 - Math.abs(t - T.click1) / .12;
+    $("startBreak").style.transform = `scale(${1 - .05 * clamp(p1)})`;
+    drawCards(t, lk);
+  }
+
+  /* ---- settings panel ---- */
+  const panel = $("panel");
+  const pin = eOutQuint(prog(t, ...T.panelIn)), pout = eIn(prog(t, ...T.panelOut));
+  panel.style.display = t >= T.panelIn[0] && t <= T.panelOut[1] ? "block" : "none";
+  if (panel.style.display === "block") {
+    put(panel, P.x - 310, P.y - 260 + (1 - pin) * 70 + pout * 50, P.s * (.94 + .06 * pin));
+    panel.style.opacity = pin * (1 - pout);
+    // tabs
+    const tabs = [...$("tabs").querySelectorAll(".tab")], tw = (564 - 28) / 5; // 5 tabs, 4 gaps of 7px
+    const tk = eOut(prog(t, T.lookTab, T.lookTab + .35));
+    css($("tabhi"), { left: lerp(0, (tw + 7) * 2, tk) + "px", width: tw + "px" });
+    tabs.forEach((el, i) => el.classList.toggle("on", (tk < .5 && i === 0) || (tk >= .5 && i === 2)));
+    const look = clamp(prog(t, T.lookTab + .05, T.lookTab + .3));
+    $("pgTimer").style.opacity = 1 - look; $("pgLook").style.opacity = look;
+    $("pgLook").style.transform = `translateX(${(1 - eOut(look)) * 24}px)`;
+    // focus chips: 30 -> 25
+    const ck = spring(prog(t, T.chip25, T.chip25 + .7), 1.8, 7);
+    const cw = 528 / 6;
+    css($("chiphi"), { left: lerp(cw * 2, cw, ck) + "px", width: cw + "px" });
+    [...$("chips").querySelectorAll(".chip")].forEach((el, i) => el.classList.toggle("on", i === (ck > .5 ? 1 : 2)));
+    [...$("accents").children].forEach((el) => el.classList.toggle("on", el.dataset.name === accName));
+  }
+
+  /* ---- cursor ---- */
+  const cur = cursorAt(t), cursor = $("cursor"), rip = $("ripple");
+  if (cur) {
+    const pr = pressAt(t);
+    cursor.style.display = "block";
+    put(cursor, cur[0] - 3, cur[1] - 2, 1 - .12 * clamp(pr));
+  } else cursor.style.display = "none";
+  let rk = -1, rc = null;
+  for (const c of CLICKS) if (t >= c && t < c + .55) { rk = (t - c) / .55; rc = c; }
+  if (rk >= 0 && cur) {
+    const r = 10 + 46 * eOut(rk);
+    css(rip, { display: "block", width: r * 2 + "px", height: r * 2 + "px", opacity: (1 - rk) * .8 });
+    put(rip, cur[0] - r, cur[1] - r);
+  } else rip.style.display = "none";
+
+  /* ---- fades ---- */
+  $("fade").style.opacity = Math.max(1 - eOut(prog(t, 0, .45)), eIn(prog(t, ...T.end)));
+}
+
+/* ============================================================
+   Sound cues for audio.mjs
+============================================================ */
+const CUES = [];
+CUES.push({ t: T.logoIn, type: "pop" }, { t: T.arcDraw[0], type: "draw" }, { t: T.spin[0], type: "whoosh" }, { t: T.slide[0] + .2, type: "swish" });
+CUES.push({ t: T.introOut[0], type: "whoosh" }, { t: T.widgetIn, type: "pop" });
+for (let i = 0; i < 4; i++) CUES.push({ t: T.cardsIn + i * .08, type: "tap", v: .7 });
+for (const c of CAPS) CUES.push({ t: c.in, type: "swish", v: .5 });
+for (const c of CLICKS) CUES.push({ t: c, type: "click" });
+for (let i = 1; i < CHANGES.length; i++) {
+  const [tc, s, d] = CHANGES[i];
+  if (tc < 1) continue;
+  CUES.push({ t: tc, type: "flip", v: d < .2 ? .45 : 1 });
+}
+CUES.push({ t: T.breakAt, type: "chime" }, { t: T.expand[0], type: "whoosh" }, { t: T.collapse[0], type: "whoosh" });
+CUES.push({ t: T.panelIn[0], type: "whoosh" }, { t: T.panelOut[0], type: "whoosh" });
+for (const [tc] of T.sizes) CUES.push({ t: tc, type: "stretch" });
+CUES.push({ t: T.light[0], type: "swish" }, { t: T.dark[0], type: "swish" });
+CUES.push({ t: T.outro[0], type: "whoosh" }, { t: T.outLogo, type: "pop" }, { t: T.outFree, type: "pop", v: .7 }, { t: T.outWord, type: "swish" });
+window.CUES = CUES.sort((a, b) => a.t - b.t);
+window.render = render;
+
+document.fonts.ready.then(() => { render(0); window.READY = true; });
+// live preview when opened in a browser: ?t=12.3 shows a frame, ?play plays in real time
+const q = new URLSearchParams(location.search);
+if (q.has("t")) render(+q.get("t"));
+if (q.has("play")) { const s = performance.now(); const loop = () => { render(((performance.now() - s) / 1000) % 40); requestAnimationFrame(loop); }; loop(); }
+</script>
+</body>
+</html>

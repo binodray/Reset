@@ -1,0 +1,12 @@
+node_modules/
+dist/
+src-tauri/target/
+*.log
+.tools/
+Install Reset/
+Reset-preview.html
+
+# promo video build outputs (the finished video is attached to releases)
+promo/out/
+promo/stills/
+promo/ref/

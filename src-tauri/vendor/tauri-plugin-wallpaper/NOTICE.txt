@@ -1,0 +1,13 @@
+tauri-plugin-wallpaper 4.0.0
+
+Copyright (c) Meslzy
+
+The vendored plugin is distributed under the MIT License. The source package
+and its readme are included here so the Windows desktop attachment remains
+compatible with the Windows handle API used by this Reset build.
+
+Reset changes: Windows bindings updated to 0.62; SetParent checks a freshly
+cleared last-error value so a successful NULL previous parent is accepted.
+Forwarded mouse messages retain MK_* button and modifier flags, including
+press/release transitions, so WebView2 pointer capture supports desktop drags.
+Reference: https://learn.microsoft.com/en-us/windows/win32/inputdev/wm-lbuttondown

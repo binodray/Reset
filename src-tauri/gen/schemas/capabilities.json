@@ -1,0 +1,1 @@
+{"main":{"identifier":"main","description":"Reset’s local timer window can receive its timer and settings events.","local":true,"windows":["main"],"permissions":["core:event:default"]}}

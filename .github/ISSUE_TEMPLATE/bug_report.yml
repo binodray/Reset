@@ -1,0 +1,44 @@
+name: Bug report
+description: Something in Reset isn't working as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to report a problem. A few details help us reproduce it.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you see, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Start a 25-minute focus session
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Reset version
+      description: Settings → FAQ & About
+      placeholder: "1.0.8"
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 24H2
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Startup log (optional)
+      description: If the problem is about starting or showing the widget, paste the end of %APPDATA%\com.reset.timer\startup.log.
+      render: text

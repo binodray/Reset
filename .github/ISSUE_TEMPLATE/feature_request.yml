@@ -1,0 +1,17 @@
+name: Feature request
+description: Suggest an idea that would make your focus and breaks better
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like Reset to help with?
+      description: Describe the moment in your day where Reset could do better.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+    validations:
+      required: true

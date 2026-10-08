@@ -11,14 +11,18 @@ const b = await puppeteer.launch({ executablePath: "C:/Program Files/Google/Chro
 const p = await b.newPage();
 await p.goto(pathToFileURL(path.join(here, "..", "Reset-preview.html")).href);
 await wait(1500);
+// transparent backdrop, so only the card and its shadow are captured
+await p.addStyleTag({ content: ".desktop-backdrop,.preview-header,.preview-footer{display:none!important}html,body{background:transparent!important}.settings-overlay{background:transparent!important;backdrop-filter:none!important}" });
 const clipAround = async (sel, pad) => { const r = await p.$eval(sel, (e) => { const b = e.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height }; });
   return { x: r.x - pad, y: r.y - pad, width: r.width + pad * 2, height: r.height + pad * 2 }; };
 await p.click("#primary-action"); await wait(2600);
-await p.screenshot({ path: out("focus.png"), clip: await clipAround("#surface", 60) });
+await p.screenshot({ path: out("focus.png"), omitBackground: true, clip: await clipAround("#surface", 60) });
 await p.click("#settings-button"); await wait(1000);
-await p.screenshot({ path: out("settings.png"), clip: await clipAround(".settings-panel", 50) });
+await p.screenshot({ path: out("settings.png"), omitBackground: true, clip: await clipAround(".settings-panel", 50) });
 await p.keyboard.press("Escape"); await wait(600);
-await p.click("#preview-break"); await wait(4000);
-await p.screenshot({ path: out("break.png"), clip: await clipAround("#surface", 50) });
+await p.$eval("#preview-break", (e) => e.click()); await wait(4000);
+// the preview skips the focus session; show what a real 30-minute session reads
+await p.$eval("#break-subtitle", (e) => { e.innerHTML = e.innerHTML.replace(/completed 0 minutes/, "completed 30 minutes"); });
+await p.screenshot({ path: out("break.png"), omitBackground: true, clip: await clipAround("#surface", 50) });
 await b.close();
 console.log("screenshots written");
